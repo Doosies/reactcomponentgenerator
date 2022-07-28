@@ -8,4 +8,4 @@
 3. 입력한 컴포넌트가 자동 생성된다.
 
 # 사용영상
-![영상](https://velog.velcdn.com/images/song961003/post/54f60b59-6fb8-49f6-8f22-cb5fa3d3851a/image.gif)
+<img src="https://velog.velcdn.com/images/song961003/post/54f60b59-6fb8-49f6-8f22-cb5fa3d3851a/image.gif">
