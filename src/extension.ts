@@ -61,9 +61,9 @@ export function activate(context: ExtensionContext) {
 			await workspace.fs.writeFile(Uri.parse(`${folder}/${inputResult}/${inputResult}.style.ts`), Buffer.from(
 				`import styled from 'styled-components';\n` +
 				`\n` +
-				`export const Styled${inputResult} = styled.div \`\n` +
+				`export const Styled${inputResult} = styled.div\`\n` +
 				`  \n` +
-				`\`\n`
+				`\`;\n`
 			));
 
 			// index.ts 파일
