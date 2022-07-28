@@ -3,7 +3,7 @@
   "publisher": "song961003",
   "displayName": "reactComponentGenerator",
   "description": "",
-  "version": "0.0.2-1",
+  "version": "0.0.3",
   "engines": {
     "vscode": "^1.69.0"
   },
