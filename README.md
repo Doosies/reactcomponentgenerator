@@ -8,5 +8,5 @@
 3. 입력한 컴포넌트가 자동 생성된다.
 
 # 사용영상
-https://user-images.githubusercontent.com/43428643/181878848-c015d755-2cf9-4090-8021-191ad93f3e99.mov
+![](https://user-images.githubusercontent.com/43428643/181878848-c015d755-2cf9-4090-8021-191ad93f3e99.mov)
 
