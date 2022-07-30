@@ -90,9 +90,9 @@ function activate(context) {
         const componentName = await (0, basicInput_1.showInputBox)();
         // 파일 생성될 경로
         const filePath = `${rootPath}/${componentName}`;
-        // 폴더생성
-        fs.mkdirSync(filePath);
         if (componentName) {
+            // 폴더생성
+            fs.mkdirSync(filePath);
             // component.tsx파일 생성
             fs.writeFileSync(`${filePath}/${componentName}.tsx`, addSnippet('reactts', componentName));
             // component.style.ts 파일 생성
