@@ -1,0 +1,41 @@
+{
+  "reactts": {
+    "prefix": ">crf",
+    "description": "React Component Snippet",
+    "body": [
+      "import './$componentName.style.ts';",
+      "",
+      "interface $componentNameProps {",
+      "  ",
+      "}",
+      "",
+      "const $componentName = ({",
+      "  ",
+      "}: $componentNameProps) => {",
+      "  return (",
+      "    <>",
+      "      ",
+      "    </>",
+      "  );",
+      "}",
+      "",
+      "export default $componentName;"
+    ]
+  },
+  "style": {
+    "prefix": ">crs",
+    "description": "React Component Style",
+    "body": [
+      "import styled from 'styled-components';",
+      "",
+      "export const Styled$componentName = styled.div`",
+      "  ",
+      "`;"
+    ]
+  },
+  "index": {
+    "prefix": ">cri",
+    "description": "React Component Index",
+    "body": ["export { default } from './$componentName';", ""]
+  }
+}

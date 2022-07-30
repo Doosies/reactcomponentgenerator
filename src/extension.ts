@@ -1,75 +1,51 @@
-import { commands, ExtensionContext, Uri, workspace, env } from 'vscode';
+import { commands, ExtensionContext, window } from 'vscode';
 import { showInputBox } from './basicInput';
-
+import * as fs from 'fs';
+import * as path from 'path';
 
 export function activate(context: ExtensionContext) {
-	// const fs = new MemFS();
 
-	// context.subscriptions.push(commands.registerCommand('reactcomponentgenerator.quickInput', async () => {
+	context.subscriptions.push(
+		commands.registerCommand('reactcomponentgenerator.toggle', async (e) => {
+			// 루트경로
+			const rootPath = e.fsPath;
 
+			// 컴포넌트 이름 입력받기
+			const componentName = await showInputBox();
+			// 파일 생성될 경로
+			const filePath = `${rootPath}/${componentName}`;
 
-
-
-	// 	const rootUri = folder;
-
-	// 	await workspace.fs.createDirectory(Uri.parse(`${rootUri}/${inputResult}/`));
-		
-	// 	// console.log(folder);
-	// 	// workspace.fs.
-	// 	// Component.tsx 파일 생성
-	// 	// workspace.fs.cre
-	// 	workspace.fs.writeFile(Uri.parse(`${rootUri}/${inputResult}/${inputResult}.tsx`), Buffer.from(
-	// 		'let a:number = true;\n console.log(a);'
-	// 	));
-
-		
-	// }));
-	context.subscriptions.push(commands.registerCommand('reactcomponentgenerator.toggle', async () => {
-
-		// 컴포넌트 이름 입력받기
-		const inputResult = await showInputBox();
-
-		// 현재 선택한 폴더 클립보드에 복사
-		await commands.executeCommand('copyFilePath');
-		const folder = await env.clipboard.readText();
-
-		if (inputResult && folder) {
-			await workspace.fs.createDirectory(Uri.parse(`${folder}/${inputResult}/`));
-
-			// 컴포넌트.tsx 파일
-			await workspace.fs.writeFile(Uri.parse(`${folder}/${inputResult}/${inputResult}.tsx`), Buffer.from(
-				`import './${inputResult}.style.ts';\n` +
-				`\n` +
-				`interface ${inputResult}Props {\n` +
-				`  \n` +
-				`} \n` +
-				`\n` +
-				`const ${inputResult} = ({\n` +
-				`	 \n` +
-				`}: ${inputResult}Props) => {\n` +
-				`	return (\n` +
-				`		<>\n` +
-				`      \n` +
-				`		</>\n` +
-				`	);\n` +
-				`}\n` +
-				`\n` +
-				`export default ${inputResult};\n`
-			));
-
-			// 컴포넌트.style.ts 파일
-			await workspace.fs.writeFile(Uri.parse(`${folder}/${inputResult}/${inputResult}.style.ts`), Buffer.from(
-				`import styled from 'styled-components';\n` +
-				`\n` +
-				`export const Styled${inputResult} = styled.div\`\n` +
-				`  \n` +
-				`\`;\n`
-			));
-
-			// index.ts 파일
-			await workspace.fs.writeFile(Uri.parse(`${folder}/${inputResult}/index.ts`), Buffer.from(
-				`export { default } from './${inputResult}';\n`
-			));
-		}
+			// 폴더생성
+			fs.mkdirSync(filePath);
+			if (componentName) {
+				// component.tsx파일 생성
+				fs.writeFileSync(`${filePath}/${componentName}.tsx`, addSnippet('reactts',componentName));
+				// component.style.ts 파일 생성
+				fs.writeFileSync(`${filePath}/${componentName}.style.ts`, addSnippet('style',componentName));
+				// index.ts파일 생성
+				fs.writeFileSync(`${filePath}/index.ts`,addSnippet('index',componentName));
+	
+				window.showInformationMessage(componentName + ' 컴포넌트 생성 완료 !! ');
+			}else {
+				window.showInformationMessage('컴포넌트 이름을 입력해주세요.');
+			}
 	}));
+	
+
+}
+
+function addSnippet(snippetType: string, componentName: string) {
+	const snippetsPath = path.join(__dirname, './snippets/');
+	const json = JSON.parse(fs.readFileSync(snippetsPath + 'snippets.json').toString());
+	let body = json[snippetType].body;
+
+	// 만약 존재할 경우
+	if (body.length) {
+		body = body.join('\r\n').split(/(?<!\\)\$componentName/gm).join(componentName);
+		return body;
+	}
+	// 존재하지 않을 경우
+	else {
+		return '';
+	}
 }
